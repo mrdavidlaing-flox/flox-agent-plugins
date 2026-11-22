@@ -1,0 +1,95 @@
+{
+  "name": "toolsmith",
+  "version": "0.1.0",
+  "src": {
+    "owner": "prime-radiant-inc",
+    "repo": "toolsmith",
+    "rev": "7e45f7fb5fb3dd7ae6d84684c03205c4ad2417ee",
+    "hash": "sha256-SDI4Zn1ng9TISKcG/OIJsYakRKxEUbmB9HpB5VZTrQ4="
+  },
+  "sourceUrl": "https://github.com/prime-radiant-inc/toolsmith",
+  "manifest": {
+    "$schema": "https://agent-plugins.org/schemas/1.1.0/plugin.schema.json",
+    "author": {
+      "email": "jesse@fsck.com",
+      "name": "Jesse Vincent"
+    },
+    "description": "Stops agents from writing throwaway helper scripts: a toolsmith subagent builds, tests, and catalogs reusable command-line tools in a git-backed tools repo",
+    "license": "MIT",
+    "name": "toolsmith",
+    "version": "0.1.0"
+  },
+  "skills": {
+    "writing-tools": "skills/writing-tools"
+  },
+  "requiredRuntimes": [
+    "bash"
+  ],
+  "defaultDependencies": [
+    "bash",
+    "python3",
+    "nodejs"
+  ],
+  "pluginRootPaths": {
+    "bin": "bin",
+    "com.anthropic.claude-code/agents": "agents",
+    "com.anthropic.claude-code/hooks": "hooks",
+    "references": "references"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "async": false,
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.cmd\" inject SessionStart",
+            "powershell": "& \"${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.cmd\" inject SessionStart",
+            "shell": "bash",
+            "type": "command"
+          }
+        ],
+        "matcher": "startup|clear|compact"
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "async": false,
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.cmd\" inject SubagentStart",
+            "powershell": "& \"${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.cmd\" inject SubagentStart",
+            "shell": "bash",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ]
+  },
+  "meta": {
+    "description": "Stops agents from writing throwaway helper scripts",
+    "homepage": "https://github.com/prime-radiant-inc/toolsmith"
+  },
+  "import": {
+    "input": "prime-radiant-inc/toolsmith",
+    "flags": [],
+    "warnings": [
+      {
+        "path": "hooks/hooks.json",
+        "message": "Claude Code runs this on SessionStart: \"${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.cmd\" inject SessionStart"
+      },
+      {
+        "path": "hooks/hooks.json",
+        "message": "Claude Code runs this on SubagentStart: \"${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.cmd\" inject SubagentStart"
+      },
+      {
+        "path": "bin",
+        "message": "Claude Code puts these on the Bash tool's PATH: toolsmith-repo"
+      },
+      {
+        "path": "package.json",
+        "message": "declares dependencies import does not package; package them in this package's custom block; with no lockfile beside it, nothing pins the versions"
+      }
+    ]
+  }
+}

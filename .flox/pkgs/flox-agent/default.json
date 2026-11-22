@@ -1,0 +1,20 @@
+{
+  "rev": "2aa4b27209ca2ad4fad390649542623e4c3b6abf",
+  "baseVersion": "0.10.0",
+  "version": "0.10.0-30-g2aa4b27",
+  "date": "2026-11-20",
+  "binaries": {
+    "aarch64-darwin": {
+      "url": "https://downloads.agent-stacks.org/agent-stacks/by-commit/2aa4b27209ca2ad4fad390649542623e4c3b6abf/agent-stacks-0.10.0-2aa4b27-aarch64-darwin",
+      "hash": "sha256-VRdCpV6xKswYvmdPYqClzddRPvTf5W1s9LMRUnwgM3E="
+    },
+    "aarch64-linux": {
+      "url": "https://downloads.agent-stacks.org/agent-stacks/by-commit/2aa4b27209ca2ad4fad390649542623e4c3b6abf/agent-stacks-0.10.0-2aa4b27-aarch64-linux",
+      "hash": "sha256-YoKNAclVacGqPVjyoBjCUWUOz+J7z/kdeW7IkKdGPSY="
+    },
+    "x86_64-linux": {
+      "url": "https://downloads.agent-stacks.org/agent-stacks/by-commit/2aa4b27209ca2ad4fad390649542623e4c3b6abf/agent-stacks-0.10.0-2aa4b27-x86_64-linux",
+      "hash": "sha256-Fnni9XUR5B6aVCVQjC082akRPv+JK10+mLUsU3yEios="
+    }
+  }
+}

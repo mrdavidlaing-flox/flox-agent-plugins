@@ -1,0 +1,54 @@
+name: Build and Publish Agent Plugins
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15
+            system: aarch64-darwin
+          - os: ubuntu-24.04
+            system: x86_64-linux
+          - os: ubuntu-24.04-arm
+            system: aarch64-linux
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Flox
+        uses: flox/install-flox-action@v2
+        with:
+          floxhub-token: ${{ secrets.FLOXHUB_TOKEN }}
+
+      - name: Build agent plugins
+        shell: bash
+        run: |
+          set -euo pipefail
+          for dir in .flox/pkgs/agent-plugin-*; do
+            [ -d "$dir" ] || continue
+            pkg="$(basename "$dir")"
+            echo "=== Building $pkg (${{ matrix.system }}) ==="
+            flox build "$pkg"
+          done
+
+      - name: Publish agent plugins to mrdavidlaing-flox
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          for dir in .flox/pkgs/agent-plugin-*; do
+            [ -d "$dir" ] || continue
+            pkg="$(basename "$dir")"
+            echo "=== Publishing $pkg (${{ matrix.system }}) ==="
+            flox publish -o mrdavidlaing-flox "$pkg"
+          done
